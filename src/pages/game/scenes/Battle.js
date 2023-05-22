@@ -1,7 +1,7 @@
 import Phaser, { Scene } from "phaser";
 // components
 import Character from "../components/Character";
-import { MAX_ENEMY, BEAR, BOSS, ZEPHYR, FIRE, LIGHTNING, SHIBA, LEFT, RIGHT, UP, DOWN, DELTA_X, DELTA_Y, GORILLA1, GORILLA2, SKEL1, SKEL2, STATE_ATTACKING_SIDE, MAGIC_RANGE } from "../playerConfig";
+import { MAX_ENEMY, BEAR, BOSS, BOSS2, ZEPHYR, FIRE, LIGHTNING, SHIBA, LEFT, RIGHT, UP, DOWN, DELTA_X, DELTA_Y, GORILLA1, GORILLA2, SKEL1, SKEL2, STATE_ATTACKING_SIDE, MAGIC_RANGE, STATE_ATTACKING_SPECIAL } from "../playerConfig";
 import { STATE_RUNNING, STATE_SLASHING_IDLE, STATE_SLASHING_RUNNING, STATE_SLIDING, STATE_ATTACKING, STATE_HURTING, STATE_IDLING, STATE_WALKING, STATE_DYING, STATE_WAITING, STATE_ATTACKING_MAGIC } from '../playerConfig';
 
 import { sleep } from "../playerConfig";
@@ -40,10 +40,12 @@ import buttonAttackSide from "../assets/sprites/Button Kick.png";
 import buttonSlide from "../assets/sprites/Button Slide.png";
 
 import boss from "../assets/sprites/boss.png";
+import boss2 from "../assets/sprites/boss2.png";
 
 import audio1 from "../assets/audio/Level1Music.mp3"
 import audioBoss from "../assets/audio/BossMusic.mp3"
-
+import audio2 from '../assets/audio/NIVEL 2 MASTER.wav';
+import audioBoss2 from '../assets/audio/BOSS 2 MASTER.wav';
 
 
 import audioBearAttack from "../assets/audio/ZombieAttack.wav";
@@ -54,10 +56,11 @@ import audioDefeat from "../assets/audio/Continue.mp3";
 // import audioBearAttack from "../assets/audio/ZombieAttack.wav";
 //json
 import flag from "../assets/sprites/flag.png";
-
+import laser from "../assets/sprites/laser.png";
 const flagJson = require('../assets/jsons/flag.json');
-
+const laserJson = require('../assets/jsons/laser.json');
 const bossJson = require('../assets/jsons/boss.json');
+const boss2Json = require('../assets/jsons/boss2.json');
 const bearJson = require('../assets/jsons/bear.json');
 const zephyrJson = require('../assets/jsons/zephyr.json');
 const fireJson = require('../assets/jsons/fire.json');
@@ -128,6 +131,8 @@ class Battle extends Scene {
         this.load.audio('magicEffect', require(`../assets/audio/magic/${this.type}.wav`).default);
         this.load.audio('intro', audio1);
         this.load.audio('introBoss', audioBoss);
+        this.load.audio('intro2', audio2);
+        this.load.audio('introBoss2', audioBoss2);
         this.load.audio('audioBearAttack', audioBearAttack);
         this.load.audio('audioBearDie', audioBearDie);
         this.load.audio('audioSlash', audioSlash);
@@ -147,8 +152,9 @@ class Battle extends Scene {
 
         this.load.atlas("bear", bear, bearJson);
         this.load.atlas("boss", boss, bossJson);
-
+        this.load.atlas("boss2", boss2, boss2Json);
         this.load.atlas('numbers', numbers, numbersJson);
+        this.load.atlas('laser', laser, laserJson)
 
         if (this.type == FIRE) {
             this.load.atlas(this.type, fire, fireJson);
@@ -275,6 +281,9 @@ class Battle extends Scene {
         // sound
         this.levelSound = this.sound.add("intro", { volume: 0.2 });
         this.bossSound = this.sound.add("introBoss", { volume: 0.2 });
+        this.level2Sound = this.sound.add("intro2", { volume: 0.2 });
+        this.boss2Sound = this.sound.add("introBoss2", { volume: 0.2 });
+
         this.slashSound = this.sound.add("audioSlash");
         this.bearAttackSound = this.sound.add("audioBearAttack");
         this.bearDieSound = this.sound.add("audioBearDie");
@@ -310,9 +319,11 @@ class Battle extends Scene {
         this.createPlayerAnimations(this.type);
         this.createBearAnimations();
         this.createBossAnimations();
+        this.createBoss2Animations();
         this.createSkeletonAnimations();
         this.createGorillaAnimations();
         this.createFlagAnimations();
+        this.createLaserAnimations();
 
         for (var i = 1; i < 2; i++) {
             let t = this.add.sprite(40 + i * 200, 120 + (width - height) / 2, "flag");
@@ -931,6 +942,44 @@ class Battle extends Scene {
         this.createSubGorillaAnimations(1);
         this.createSubGorillaAnimations(2);
     }
+    createBoss2Animations = () => {
+        // bear animation
+        this.anims.create({
+            key: 'boss2Idle',
+            frames: this.anims.generateFrameNames('boss2', { prefix: 'GorillaBoss', start: 1, end: 45, zeroPad: 4 }),
+            frameRate: 24,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'boss2Attack',
+            frames: this.anims.generateFrameNames('boss2', { prefix: 'GorillaBoss', start: 189, end: 228, zeroPad: 4 }),
+            frameRate: 24,
+        })
+        this.anims.create({
+            key: 'boss2Die',
+            frames: this.anims.generateFrameNames('boss2', { prefix: 'GorillaBoss', start: 111, end: 188, zeroPad: 4 }),
+            frameRate: 24,
+            // repeat: -1
+        })
+        this.anims.create({
+            key: 'boss2Walk',
+            frames: this.anims.generateFrameNames('boss2', { prefix: 'GorillaBoss', start: 46, end: 90, zeroPad: 4 }),
+            frameRate: 24,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'boss2Hurt',
+            frames: this.anims.generateFrameNames('boss2', { prefix: 'GorillaBoss', start: 91, end: 110, zeroPad: 4 }),
+            frameRate: 24,
+            //repeat: -1
+        })
+        this.anims.create({
+            key: 'boss2AttackSpecial',
+            frames: this.anims.generateFrameNames('boss2', { prefix: 'GorillaBoss', start: 229, end: 273, zeroPad: 4 }),
+            frameRate: 24,
+            //repeat: -1
+        })
+    }
     createBossAnimations = () => {
         // bear animation
         this.anims.create({
@@ -1070,7 +1119,15 @@ class Battle extends Scene {
         })
     }
 
+    createLaserAnimations = () => {
+        this.anims.create({
+            key: "laser",
+            frames: this.anims.generateFrameNames('laser', { prefix: 'GorillaBoss', start: 46, end: 65, zeroPad: 4 }),
+            frameRate: 24,
+            delay: 120,
 
+        })
+    }
     generateRandomState = () => {
 
         let states = [STATE_IDLING, STATE_WALKING];
@@ -1130,10 +1187,16 @@ class Battle extends Scene {
                 }
             }
 
+            if (dy >= -100 && dy <= -60 && this.enemies[i].config.type == BOSS2 && Math.random() < 0.1) {
 
+                console.log("attacking special");
+                this.enemies[i].updateState(STATE_ATTACKING_SPECIAL);
+
+
+            }
             if (!(h == null && v == null)) {
                 if (this.player.config.state != STATE_DYING && Math.abs(dx) <= this.enemies[i].config.range && Math.abs(dy) <= DELTA_Y * 5 && ((dx < 0 && this.player.direction() == LEFT) || ((dx > 0 && this.player.direction() == RIGHT)))) {
-                    if (this.enemies[i].config.type != BOSS) {
+                    if (this.enemies[i].config.type != BOSS && this.enemies[i].config.type != BOSS2) {
                         this.enemies[i].updateState(STATE_ATTACKING_SIDE);
                     }
                 }
@@ -1210,28 +1273,55 @@ class Battle extends Scene {
 
         let newE = null;
         if ((level == 5 && this.currentEnemies == MAX_ENEMY)) {
-            newE = new Character(this, {
-                type: BOSS,
-                direction: LEFT,
-                x: x + (this.currentLevel - 1) * width,
-                y: y,
-                speed: speed * 1.25,
-                state: STATE_IDLING,
-                scale: 1,
-                body_width: 160,
-                body_height: 20,
-                shadow_width: 160,
-                shadow_height: 20,
-                offsetX: 40,
-                offsetY: 220,
-                shadow_x: 40,
-                shadow_y: 220,
-                range: 120,
-                hp: 6,
-                currentHp: 6,
-            });
-            this.levelSound.stop();
-            this.bossSound.play();
+            if (gameLevel == 1)
+                newE = new Character(this, {
+                    type: BOSS,
+                    direction: LEFT,
+                    x: x + (this.currentLevel - 1) * width,
+                    y: y,
+                    speed: speed * 1.25,
+                    state: STATE_IDLING,
+                    scale: 1,
+                    body_width: 160,
+                    body_height: 20,
+                    shadow_width: 160,
+                    shadow_height: 20,
+                    offsetX: 40,
+                    offsetY: 220,
+                    shadow_x: 40,
+                    shadow_y: 220,
+                    range: 120,
+                    hp: 6,
+                    currentHp: 6,
+                });
+            else
+                newE = new Character(this, {
+                    type: BOSS2,
+                    direction: LEFT,
+                    x: x + (this.currentLevel - 1) * width,
+                    y: y,
+                    speed: speed * 1.25,
+                    state: STATE_IDLING,
+                    scale: 1,
+                    body_width: 180,
+                    body_height: 20,
+                    shadow_width: 180,
+                    shadow_height: 20,
+                    offsetX: 40,
+                    offsetY: 180,
+                    shadow_x: 40,
+                    shadow_y: 180,
+                    range: 120,
+                    hp: 6,
+                    currentHp: 6,
+                });
+            if (gameLevel == 1) {
+                this.levelSound.stop();
+                this.bossSound.play();
+            } else {
+                this.level2Sound.stop();
+                this.boss2Sound.play();
+            }
         }
         else {
             let r = Math.random();
@@ -1353,7 +1443,7 @@ class Battle extends Scene {
             }
             this.earn += newEarn;
             console.log(this.earn);
-            
+
             this.txt.setText(this.earn);
             const response = await api.post("/users/addEarn", { earn: newEarn, token: this.tokenType })
             if (response.status === 200) {
@@ -1361,6 +1451,17 @@ class Battle extends Scene {
             }
             else {
                 console.log("UNSUCCESSFUL MONEY EARNING")
+            }
+        })
+        newE.body.on('attackSpecial', (data) => {
+            if (data.x < this.player.x() && data.x + 400 > this.player.x() && this.player.config.currentHp > 0) {
+                if (data.y < this.player.y() && data.y + 75 > this.player.y()) {
+                    this.player.config.currentHp = 0;
+                    // this.ended = true;
+                    this.endSound.play();
+                    // this.player.updateState(STATE_DYING);
+                    this.player.die();
+                }
             }
         })
         newE.body.on("attack", (data) => {
@@ -1462,7 +1563,11 @@ class Battle extends Scene {
 
     nextLevel = async () => {
         if (this.currentLevel == 0) {
-            this.levelSound.play();
+            if (gameLevel == 1) this.levelSound.play();
+            else {
+                this.bossSound.stop();
+                this.level2Sound.play();
+            }
         }
 
 
