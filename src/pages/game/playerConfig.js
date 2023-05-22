@@ -1,6 +1,7 @@
 export const BEAR = "bear";
 export const PLAYER = "player";
 export const BOSS = "boss";
+export const BOSS2 = "boss2";
 export const SKEL1 = "skel1";
 export const SKEL2 = "skel2";
 
