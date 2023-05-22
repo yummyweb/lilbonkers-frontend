@@ -1,0 +1,434 @@
+{
+    "frames": [
+        {
+            "filename": "GorillaBoss0063",
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0064",
+            "frame": {
+                "x": 0,
+                "y": 201,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0065",
+            "frame": {
+                "x": 0,
+                "y": 402,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0046",
+            "frame": {
+                "x": 0,
+                "y": 603,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0047",
+            "frame": {
+                "x": 0,
+                "y": 804,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0048",
+            "frame": {
+                "x": 526,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0049",
+            "frame": {
+                "x": 526,
+                "y": 201,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0050",
+            "frame": {
+                "x": 526,
+                "y": 402,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0051",
+            "frame": {
+                "x": 526,
+                "y": 603,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0052",
+            "frame": {
+                "x": 526,
+                "y": 804,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0053",
+            "frame": {
+                "x": 0,
+                "y": 1005,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0054",
+            "frame": {
+                "x": 526,
+                "y": 1005,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0055",
+            "frame": {
+                "x": 0,
+                "y": 1206,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0056",
+            "frame": {
+                "x": 526,
+                "y": 1206,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0057",
+            "frame": {
+                "x": 1052,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0058",
+            "frame": {
+                "x": 1052,
+                "y": 201,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0059",
+            "frame": {
+                "x": 1052,
+                "y": 402,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0060",
+            "frame": {
+                "x": 1052,
+                "y": 603,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0061",
+            "frame": {
+                "x": 1052,
+                "y": 804,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        },
+        {
+            "filename": "GorillaBoss0062",
+            "frame": {
+                "x": 1052,
+                "y": 1005,
+                "w": 525,
+                "h": 200
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 525,
+                "h": 200
+            },
+            "sourceSize": {
+                "w": 525,
+                "h": 200
+            }
+        }
+    ],
+    "meta": {
+        "app": "https://www.leshylabs.com/apps/sstool/",
+        "version": "Leshy SpriteSheet Tool v0.8.4",
+        "image": "laser.png",
+        "size": {
+            "w": 1577,
+            "h": 1406
+        },
+        "scale": 1
+    }
+}

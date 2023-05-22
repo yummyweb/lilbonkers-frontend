@@ -1,7 +1,7 @@
 import Phaser, { Scene } from "phaser";
 // components
 import Character from "../components/Character";
-import { MAX_ENEMY, BEAR, BOSS, ZEPHYR, FIRE, LIGHTNING, SHIBA, LEFT, RIGHT, UP, DOWN, DELTA_X, DELTA_Y, GORILLA1, GORILLA2, SKEL1, SKEL2, STATE_ATTACKING_SIDE, MAGIC_RANGE, BOSS2 } from "../playerConfig";
+import { MAX_ENEMY, BEAR, BOSS, ZEPHYR, FIRE, LIGHTNING, SHIBA, LEFT, RIGHT, UP, DOWN, DELTA_X, DELTA_Y, GORILLA1, GORILLA2, SKEL1, SKEL2, STATE_ATTACKING_SIDE, MAGIC_RANGE, BOSS2, STATE_ATTACKING_SPECIAL } from "../playerConfig";
 import { STATE_RUNNING, STATE_SLASHING_IDLE, STATE_SLASHING_RUNNING, STATE_SLIDING, STATE_ATTACKING, STATE_HURTING, STATE_IDLING, STATE_WALKING, STATE_DYING, STATE_WAITING, STATE_ATTACKING_MAGIC } from '../playerConfig';
 
 import { sleep } from "../playerConfig";
@@ -54,7 +54,9 @@ import audioDefeat from "../assets/audio/Continue.mp3";
 //json
 //flag
 import flag from "../assets/sprites/flag.png";
+import laser from "../assets/sprites/laser.png";
 
+const laserJson = require('../assets/jsons/laser.json');
 const flagJson = require('../assets/jsons/flag.json');
 const bossJson = require('../assets/jsons/boss.json');
 const boss2Json = require('../assets/jsons/boss2.json');
@@ -130,6 +132,8 @@ class BattleWeb extends Scene {
         this.load.image('go', go);
         this.load.image('back', back);
         this.load.image('back2', back2);
+
+
         this.load.atlas('skel1', skel1, skeleton1Json);
         this.load.atlas('skel2', skel2, skeleton2Json);
 
@@ -140,6 +144,7 @@ class BattleWeb extends Scene {
         this.load.atlas("boss", boss, bossJson);
         this.load.atlas("boss2", boss2, boss2Json);
         this.load.atlas('numbers', numbers, numbersJson);
+        this.load.atlas('laser', laser, laserJson)
         if (this.type == FIRE) {
             this.load.atlas(this.type, fire, fireJson);
         }
@@ -293,6 +298,7 @@ class BattleWeb extends Scene {
         this.createSkeletonAnimations();
         this.createGorillaAnimations();
         this.createFlagAnimations();
+        this.createLaserAnimations();
 
         for (var i = 1; i < 2; i++) {
             let t = this.add.sprite(100 + i * 200, 120, "flag");
@@ -308,7 +314,6 @@ class BattleWeb extends Scene {
 
         this.magicFront = this.add.sprite(0, 0, 'magicFront');
         this.magicBack = this.add.sprite(0, 0, 'magicBack');
-
         this.player = new Character(this, {
             type: this.type,
             direction: RIGHT,
@@ -937,6 +942,12 @@ class BattleWeb extends Scene {
             frameRate: 24,
             //repeat: -1
         })
+        this.anims.create({
+            key: 'boss2AttackSpecial',
+            frames: this.anims.generateFrameNames('boss2', { prefix: 'GorillaBoss', start: 229, end: 273, zeroPad: 4 }),
+            frameRate: 24,
+            //repeat: -1
+        })
     }
     createBearAnimations = () => {
         // bear animation
@@ -973,6 +984,15 @@ class BattleWeb extends Scene {
             frames: this.anims.generateFrameNames(`bear`, { prefix: 'ZombieBear', start: 96, end: 115, zeroPad: 4 }),
             frameRate: 24,
             //repeat: -1
+        })
+    }
+    createLaserAnimations = () => {
+        this.anims.create({
+            key: "laser",
+            frames: this.anims.generateFrameNames('laser', { prefix: 'GorillaBoss', start: 46, end: 65, zeroPad: 4 }),
+            frameRate: 24,
+            delay: 120,
+
         })
     }
     createFlagAnimations = () => {
@@ -1122,18 +1142,28 @@ class BattleWeb extends Scene {
                 }
             }
 
+            console.log("dy----", dy)
+            if (dy >= -100 && dy <= -60 && this.enemies[i].config.type == BOSS2 && Math.random() < 0.1) {
 
-            if (!(h == null && v == null)) {
+                console.log("attacking special");
+                this.enemies[i].updateState(STATE_ATTACKING_SPECIAL);
+
+
+            }
+            else if (!(h == null && v == null)) {
                 if (this.player.config.state != STATE_DYING && Math.abs(dx) <= this.enemies[i].config.range && Math.abs(dy) <= DELTA_Y * 5 && ((dx < 0 && this.player.direction() == LEFT) || ((dx > 0 && this.player.direction() == RIGHT)))) {
-                    if (this.enemies[i].config.type != BOSS || this.enemies[i].config.type != BOSS) {
+                    if (this.enemies[i].config.type != BOSS && this.enemies[i].config.type != BOSS2) {
                         this.enemies[i].updateState(STATE_ATTACKING_SIDE);
                     }
-                }
-                else this.enemies[i].updateState(STATE_WALKING, {
-                    directionH: h,
-                    directionV: v
 
-                });
+                }
+                else {
+                    this.enemies[i].updateState(STATE_WALKING, {
+                        directionH: h,
+                        directionV: v
+
+                    });
+                }
             }
             else {
 
@@ -1360,7 +1390,17 @@ class BattleWeb extends Scene {
                 console.log("UNSUCCESSFUL MONEY EARNING")
             }
         })
-
+        newE.body.on('attackSpecial', (data) => {
+            if (data.x < this.player.x() && data.x + 400 > this.player.x() && this.player.config.currentHp > 0) {
+                if (data.y < this.player.y() && data.y + 75 > this.player.y()) {
+                    this.player.config.currentHp = 0;
+                    // this.ended = true;
+                    this.endSound.play();
+                    // this.player.updateState(STATE_DYING);
+                    this.player.die();
+                }
+            }
+        })
         newE.body.on("attack", (data) => {
             this.bearAttackSound.play();
             let dx = this.player.x() - data.x;

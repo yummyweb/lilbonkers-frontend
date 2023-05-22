@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { BOSS, ZEPHYR, FIRE, STATE_SLIDING, BEAR, PLAYER, SKEL1, SKEL2, STATE_ATTACKING_MAGIC } from "../playerConfig";
+import { BOSS, ZEPHYR, FIRE, STATE_SLIDING, BEAR, PLAYER, SKEL1, SKEL2, STATE_ATTACKING_MAGIC, STATE_ATTACKING_SPECIAL, BOSS2 } from "../playerConfig";
 import { } from "../playerConfig";
 import { STATE_ATTACKING, STATE_IDLING, STATE_WALKING, STATE_DYING, STATE_WAITING, STATE_HURTING, STATE_KICKING, STATE_RUNNING, STATE_SLASHING_IDLE, STATE_SLASHING_RUNNING, STATE_ATTACKING_SIDE } from '../playerConfig';
 import { LEFT, RIGHT, UP, DOWN } from '../playerConfig';
@@ -17,7 +17,13 @@ class Character {
         this.shadow = this.scene.add.ellipse(config.x + config.shadow_x, config.y + config.shadow_y, config.shadow_width, config.shadow_height, "#000000", 0.7).setOrigin(0, 0).setScale(config.scale, config.scale);
 
         this.body = this.scene.physics.add.sprite(config.x, config.y, config.type, 0).setScale(config.scale, config.scale).setOrigin(0, 0);
-
+        this.laser = this.scene.physics.add.sprite(config.x, config.y, "laser", "GorillaBoss0065").setOrigin(0, 0);
+        this.laser.setBodySize(400, 75, false);
+        this.laser.body.setOffset(0, 25);
+        // this.laser.play("laser");
+        if (config.type != BOSS2) {
+            this.laser.setAlpha(0);
+        }
         // if (this.config.type == SKEL1 || this.config.type == SKEL2)
         //     this.body.setOrigin(0.5, 0.5);
 
@@ -27,6 +33,7 @@ class Character {
         this.body.setBodySize(config.body_width, config.body_height, false);
         this.body.body.setOffset(config.offsetX, config.offsetY);
         this.attacking = false;
+
         //event
         this.body.on("animationcomplete", ({ key }) => {
             console.log('animation', key);
@@ -49,10 +56,15 @@ class Character {
                 }
 
             }
+            else if (key == this.config.type + "AttackSpecial") {
+                this.setState(STATE_WAITING);
+                this.laser.setFrame("GorillaBoss0065");
+            }
             else {
                 this.setState(STATE_WAITING);
                 // this.body.setOrigin(0, 0);
             }
+
             if (this.magicInterval != undefined)
                 clearInterval(this.magicInterval);
 
@@ -64,6 +76,7 @@ class Character {
     }
     setPosition = (x, y) => {
         this.shadow.setPosition(x + this.config.shadow_x, this.config.y + this.config.shadow_y);
+        this.laser.setPosition(x + 100, y);
         this.body.setPosition(x, y)
     }
     setState = (state) => {
@@ -99,10 +112,12 @@ class Character {
 
             if (directionH != this.config.direction) {
                 this.body.setFlipX(true);
+                this.laser.setFlipX(true);
 
             }
             else {
                 this.body.setFlipX(false);
+                this.laser.setFlipX(false);
             }
 
             if (directionH == LEFT) this.body.setVelocityX(-s);
@@ -211,13 +226,35 @@ class Character {
         this.setState(STATE_ATTACKING_SIDE);
     }
 
+    attackSpecial = () => {
+        this.body.play(this.config.type + "AttackSpecial");
+        this.setVelocity(0, 0);
+        // this.setAttackFlag(14, 18);
+        this.laser.play('laser');
+        this.emitAttackSpecial(5);
+        this.setState(STATE_ATTACKING_SPECIAL);
+    }
+
     magicAttack = () => {
         this.body.play(this.config.type + "AttackMagic");
         this.setVelocity(0, 0);
         this.setState(STATE_ATTACKING_MAGIC);
         this.emitAttackMagic(28);
     }
+    emitAttackSpecial = (st) => {
+        setTimeout(() => {
+            if (this.config.state == STATE_ATTACKING_SPECIAL)
 
+                this.magicInterval = setInterval(() => {
+                    this.body.emit("attackSpecial", {
+                        x: this.laser.x,
+                        y: this.laser.y,
+                        range: this.config.range,
+                        direction: this.direction(),
+                    });
+                }, 100);
+        }, st * 1000 / 24)
+    }
     emitAttackMagic = (st) => {
         setTimeout(() => {
             if (this.config.state == STATE_ATTACKING_MAGIC)
@@ -295,6 +332,10 @@ class Character {
                 if (this.config.state == STATE_WAITING || this.config.state == STATE_IDLING || this.config.state == STATE_RUNNING || this.config.state == STATE_WALKING)
                     this.magicAttack();
                 break;
+            case STATE_ATTACKING_SPECIAL:
+                if (this.config.state == STATE_WAITING || this.config.state == STATE_IDLING || this.config.state == STATE_RUNNING || this.config.state == STATE_WALKING)
+                    this.attackSpecial();
+                break;
             case STATE_KICKING:
                 if (this.config.state == STATE_WAITING || this.config.state == STATE_IDLING || this.config.state == STATE_RUNNING || this.config.state == STATE_WALKING) {
                     this.kick();
@@ -319,11 +360,21 @@ class Character {
 
         }
         this.shadow.setPosition(this.body.x + this.config.shadow_x, this.body.y + this.config.shadow_y);
+
+
+        if (this.laser.flipX == true)
+            this.laser.setPosition(this.body.x, this.body.y);
+        else
+            this.laser.setPosition(this.body.x - 300, this.body.y);
+
+
+
     }
 
     setZindex = (index) => {
         this.body.setDepth(index);
         this.shadow.setDepth(index - 1);
+        this.laser.setDepth(index);
     }
 
     x = () => {

@@ -34,7 +34,7 @@ export const STATE_SLIDING = "sliding";
 export const STATE_DEAD = "dead";
 export const STATE_HURTING = "hurting";
 export const STATE_ATTACKING_MAGIC = "magic attack";
-
+export const STATE_ATTACKING_SPECIAL = "special attack";
 //enemies
 export const STATE_ATTACKING = "attacking";
 
