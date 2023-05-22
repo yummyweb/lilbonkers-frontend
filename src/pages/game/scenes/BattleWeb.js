@@ -43,6 +43,10 @@ import boss2 from "../assets/sprites/boss2.png";
 import audio1 from "../assets/audio/Level1Music.mp3"
 import audioBoss from "../assets/audio/BossMusic.mp3"
 
+import audio2 from '../assets/audio/NIVEL 2 MASTER.wav';
+import audioBoss2 from '../assets/audio/BOSS 2 MASTER.wav';
+
+
 import magicIndicator from "../assets/sprites/magic.png";
 
 import audioBearAttack from "../assets/audio/ZombieAttack.wav";
@@ -124,6 +128,8 @@ class BattleWeb extends Scene {
         this.load.audio('magicEffect', require(`../assets/audio/magic/${this.type}.wav`).default);
         this.load.audio('intro', audio1);
         this.load.audio('introBoss', audioBoss);
+        this.load.audio('intro2', audio2);
+        this.load.audio('introBoss2', audioBoss2);
         this.load.audio('audioBearAttack', audioBearAttack);
         this.load.audio('audioBearDie', audioBearDie);
         this.load.audio('audioSlash', audioSlash);
@@ -259,6 +265,10 @@ class BattleWeb extends Scene {
         // sound
         this.levelSound = this.sound.add("intro", { volume: 0.2 });
         this.bossSound = this.sound.add("introBoss", { volume: 0.2 });
+
+        this.level2Sound = this.sound.add("intro2", { volume: 0.2 });
+        this.boss2Sound = this.sound.add("introBoss2", { volume: 0.2 });
+
         this.slashSound = this.sound.add("audioSlash");
         this.bearAttackSound = this.sound.add("audioBearAttack");
         this.bearDieSound = this.sound.add("audioBearDie");
@@ -1258,8 +1268,13 @@ class BattleWeb extends Scene {
                     hp: 6,
                     currentHp: 6,
                 });
-            this.levelSound.stop();
-            this.bossSound.play();
+            if (gameLevel == 1) {
+                this.levelSound.stop();
+                this.bossSound.play();
+            } else {
+                this.level2Sound.stop();
+                this.boss2Sound.play();
+            }
         }
         else {
             let r = Math.random();
@@ -1493,7 +1508,11 @@ class BattleWeb extends Scene {
 
     nextLevel = async () => {
         if (this.currentLevel == 0) {
-            this.levelSound.play();
+            if (gameLevel == 1) this.levelSound.play();
+            else {
+                this.bossSound.stop();
+                this.level2Sound.play();
+            }
         }
 
         // this.cameras.main.setPosition(width * level - 1, 0);
