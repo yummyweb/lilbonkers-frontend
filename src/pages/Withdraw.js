@@ -28,7 +28,7 @@ const Withdraw = ({ auth, withDraw, loadUser }) => {
 
             <div className="rounded-[50px] bg-[#361728cc] p-10">
                 <div id="score-title" className="text-center text-[32px] md:text-[40px] sm:text-[50px] text-orange-300 my-5">
-                    Withdraw your { currentToken }!
+                    Withdraw your {currentToken}!
                 </div>
                 <select className="px-8 py-2" value={currentToken} onChange={e => setCurrentToken(e.target.value)}>
                     <option value="BONK">BONK</option>
@@ -59,14 +59,14 @@ const Withdraw = ({ auth, withDraw, loadUser }) => {
                                             {currentToken === TOK_BONK ? <td>{user.earn ? user.earn : 0}</td> : null}
                                             {currentToken === TOK_KING ? <td>{user.earn_king ? user.earn_king : 0}</td> : null}
                                             {currentToken === TOK_GUAC ? <td>{user.earn_guac ? user.earn_guac : 0}</td> : null}
-                                            {currentToken === TOK_PRNT ? <td>{user.earn_print ? user.earn_print : 0}</td> : null}
+                                            {currentToken === TOK_PRNT ? <td>{user.earn_prnt ? user.earn_prnt : 0}</td> : null}
                                         </tr>
                                 })
                             }
 
                         </tbody>
                     </table>
-                    <div className="text-[20px] text-[#128921] text-center mt-10">Withdraw your { currentToken }!</div>
+                    <div className="text-[20px] text-[#128921] text-center mt-10">Withdraw your {currentToken}!</div>
                     <div className="w-full flex justify-center">
                         <button className="bg-blue-600 rounded-lg px-5 py-2 mt-5 text-gray-200" onClick={async () => {
                             let score = 0;
