@@ -59,6 +59,7 @@ import audioDefeat from "../assets/audio/Continue.mp3";
 //flag
 import flag from "../assets/sprites/flag.png";
 import laser from "../assets/sprites/laser.png";
+import { addScore } from "../../../actions/user";
 
 const laserJson = require('../assets/jsons/laser.json');
 const flagJson = require('../assets/jsons/flag.json');
@@ -594,16 +595,12 @@ class BattleWeb extends Scene {
 
         if (this.enemies.length == 0) {
             if (this.currentLevel == 5) {
-
                 if (gameLevel == 1) {
                     gameLevel++;
 
                     this.resetGame();
                 }
                 else if (gameLevel == 2) {
-                    let sc = this.player.config.currentHp * 1000000 - this.totalTime;
-                    // alert(sc);
-                    // api.post("/users/addScore", { score: sc }).then((res) => { document.getElementById("navTowith").click(); });
                     this.player.stopAll();
                     this.scene.start('win', { type: this.type });
                 }
@@ -613,8 +610,6 @@ class BattleWeb extends Scene {
 
             if (this.go.alpha == 0) {
                 this.showGo(true);
-
-
             }
             else {
                 if (this.player.x() > (this.currentLevel) * width + width / 2) {
@@ -1362,6 +1357,7 @@ class BattleWeb extends Scene {
                 else if (this.tokenType === "PRNT") {
                     newEarn = 0.1
                 }
+                this.score += 10;
             }
             else if (config.type == BOSS) {
                 // Base = 100 BONK
@@ -1377,6 +1373,7 @@ class BattleWeb extends Scene {
                 else if (this.tokenType === "PRNT") {
                     newEarn = 1.15
                 }
+                this.score += 150;
             }
             else {
                 // Base = 50 BONK
@@ -1392,13 +1389,22 @@ class BattleWeb extends Scene {
                 else if (this.tokenType === "PRNT") {
                     newEarn = 0.55
                 }
+                this.score += 50;
             }
             this.earn += newEarn;
             console.log(this.earn);
             this.txt.setText(Math.round(this.earn * 1000) / 1000);
-
+            
             const response = await api.post("/users/addEarn", { earn: newEarn, token: this.tokenType })
             if (response.status === 200) {
+                console.log("SUCCESSFULLY EARNED MONEY")
+            }
+            else {
+                console.log("UNSUCCESSFUL MONEY EARNING")
+            }
+
+            const _response = await api.post("/users/addScore", { score: this.score })
+            if (_response.status === 200) {
                 console.log("SUCCESSFULLY EARNED MONEY")
             }
             else {

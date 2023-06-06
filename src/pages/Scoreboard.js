@@ -32,9 +32,9 @@ const Scoreboard = ({ auth }) => {
                     <table className="w-full text-center">
                         <thead className="sm:text-[26px] text-[16px] text-[#b5eeff] border-b">
                             <tr>
-                                <th >Rank</th>
-                                <th >Name</th>
-                                <th >Score</th>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score</th>
                             </tr>
                         </thead>
                         <tbody className="text-[22px] text-gray-400 sm:text-[36px] md:text-[40px] lg:text-[48px]">
@@ -45,11 +45,10 @@ const Scoreboard = ({ auth }) => {
                                     >
                                         <td>{index + 1}</td>
                                         <td>{user.name}</td>
-                                        <td>{user.earn}</td>
+                                        <td>{user.score}</td>
                                     </tr>
                                 })
                             }
-
                         </tbody>
                     </table>
                 </div>
