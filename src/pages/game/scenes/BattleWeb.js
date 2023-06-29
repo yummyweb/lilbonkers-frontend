@@ -1392,19 +1392,10 @@ class BattleWeb extends Scene {
                 this.score += 50;
             }
             this.earn += newEarn;
-            console.log(this.earn);
             this.txt.setText(Math.round(this.earn * 1000) / 1000);
-            
+
             const response = await api.post("/users/addEarn", { earn: newEarn, token: this.tokenType })
             if (response.status === 200) {
-                console.log("SUCCESSFULLY EARNED MONEY")
-            }
-            else {
-                console.log("UNSUCCESSFUL MONEY EARNING")
-            }
-
-            const _response = await api.post("/users/addScore", { score: this.score })
-            if (_response.status === 200) {
                 console.log("SUCCESSFULLY EARNED MONEY")
             }
             else {
@@ -1418,6 +1409,7 @@ class BattleWeb extends Scene {
                     // this.ended = true;
                     this.endSound.play();
                     // this.player.updateState(STATE_DYING);
+                    const _response = api.post("/users/addScore", { score: this.score })
                     this.player.die();
                 }
             }
@@ -1459,6 +1451,7 @@ class BattleWeb extends Scene {
                     // this.ended = true;
                     this.endSound.play();
                     // this.player.updateState(STATE_DYING);
+                    const _response = api.post("/users/addScore", { score: this.score })
                     this.player.die();
                 }
                 //console.log("uahh");
@@ -1501,6 +1494,7 @@ class BattleWeb extends Scene {
                     // this.ended = true;
                     this.endSound.play();
                     // this.player.updateState(STATE_DYING);
+                    const _response = api.post("/users/addScore", { score: this.score })
                     this.player.die();
                 }
                 //console.log("uahh");

@@ -1460,6 +1460,7 @@ class Battle extends Scene {
                     // this.ended = true;
                     this.endSound.play();
                     // this.player.updateState(STATE_DYING);
+                    const _response = api.post("/users/addScore", { score: this.score })
                     this.player.die();
                 }
             }
@@ -1502,6 +1503,7 @@ class Battle extends Scene {
                     // this.ended = true;
                     this.endSound.play();
                     // this.player.updateState(STATE_DYING);
+                    const _response = api.post("/users/addScore", { score: this.score })
                     this.player.die();
                 }
                 //console.log("uahh");
@@ -1548,6 +1550,7 @@ class Battle extends Scene {
                     // this.ended = true;
                     this.endSound.play();
                     // this.player.updateState(STATE_DYING);
+                    const _response = api.post("/users/addScore", { score: this.score })
                     this.player.die();
                 }
                 //console.log("uahh");
