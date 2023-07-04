@@ -253,8 +253,8 @@ class BattleWeb extends Scene {
         if (gameLevel === 2) {
             let backImg = this.backImages.pop();
             backImg.destroy();
-            let scaleW = width / 1440 * 5;
-            let scaleH = height / 162;
+            let scaleW = width / 3000 * 5;
+            let scaleH = height / 338;
             this.backImages.push(this.add.image(0, centerY, "back2").setOrigin(0, 0.5).setScale(scaleW, scaleH));
         }
 
